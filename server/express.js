@@ -23,7 +23,7 @@ import path from "path";
       
 
    // Serve static files from the build directory
-   app.use(express.static(path.join(CURRENT_WORKING_DIR, "../dist/app")))
+   app.use(express.static(path.join(CURRENT_WORKING_DIR, "../client/dist/app")))
    app.use(express.json());
    app.use(express.urlencoded({ extended: true }));
    app.use('/', userRoutes)
