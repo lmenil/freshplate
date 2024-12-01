@@ -14,14 +14,15 @@ import path from "path";
     const app = express()
     const CURRENT_WORKING_DIR = process.cwd();
     const corsOptions = {
-        origin: 'https://prefreshplate.onrender.com',
+        // origin: 'https://prefreshplate.onrender.com',
+        origin: 'http://localhost:3000',
         credentials: true,
         optionsSuccessStatus: 204
       }
       const port = process.env.PORT || 3000;
 
    // Serve static files from the build directory
-   app.use(express.static(path.join(CURRENT_WORKING_DIR, "../dist/app")))
+   app.use(express.static(path.join(CURRENT_WORKING_DIR, "../client/dist/app")))
    app.use(express.json());
    app.use(express.urlencoded({ extended: true }));
    app.use('/', userRoutes)
@@ -41,9 +42,9 @@ import path from "path";
     res.status(200).send(Template()) 
     }) 
     // Catch-all route to serve the React app
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(CURRENT_WORKING_DIR, '../dist/app/index.html'))
-    })
+    // app.get('*', (req, res) => {
+    //     res.sendFile(path.join(CURRENT_WORKING_DIR, '../dist/app/index.html'))
+    // })
     
     app.use((err, req, res, next) => {
         if (err.name === 'UnauthorizedError') {
