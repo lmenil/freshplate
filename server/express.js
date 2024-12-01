@@ -11,15 +11,16 @@ import recipeRoutes from './Routes/recipe.routes.js'
 import contactRoutes from './Routes/contact.routes.js'
 import path from "path";
 
+    const port = process.env.PORT || 3000;
     const app = express()
     const CURRENT_WORKING_DIR = process.cwd();
     const corsOptions = {
-        // origin: 'https://prefreshplate.onrender.com',
-        origin: 'http://localhost:3000',
+        origin: 'https://prefreshplate.onrender.com',
+        //origin: 'http://localhost:3000',
         credentials: true,
         optionsSuccessStatus: 204
       }
-      const port = process.env.PORT || 3000;
+      
 
    // Serve static files from the build directory
    app.use(express.static(path.join(CURRENT_WORKING_DIR, "../client/dist/app")))
