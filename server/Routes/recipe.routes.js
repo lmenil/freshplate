@@ -7,11 +7,15 @@ const router = express.Router()
 router.route('/api/recipes')
   .post(authCtrl.requireSignin, authCtrl.setUser, recipeCtrl.createRecipe)
   .get(recipeCtrl.getAllRecipes)
+
+  router.route('/api/recipes/updateCreator')
+  .put(authCtrl.requireSignin, recipeCtrl.updateCreator);
   
 router.route('/api/recipes/:recipeId')
   .get(authCtrl.requireSignin, recipeCtrl.read)
   .put(authCtrl.requireSignin, authCtrl.hasAuthorization, recipeCtrl.updateRecipe)
   .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, recipeCtrl.deleteRecipe)
+
 
 router.param('recipeId', recipeCtrl.recipeByID)
 

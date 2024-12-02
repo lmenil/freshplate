@@ -89,4 +89,28 @@ const remove = async (params, credentials) => {
   }
 };
 
-export { create, list, read, update, remove }
+const updateRecipeCreators = async (data, credentials) => {
+  try {
+    let response = await fetch('/api/recipes/updateCreator', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      throw new Error(result.message || 'Server responded with an error');
+    }
+    return result;
+  } catch (err) {
+    console.error('Error in updateRecipeCreators:', err);
+    throw new Error(`Failed to update recipe creators: ${err.message}`);
+  }
+};
+
+
+
+export { create, list, read, update, remove, updateRecipeCreators }

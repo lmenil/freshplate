@@ -43,9 +43,9 @@ import path from "path";
     res.status(200).send(Template()) 
     }) 
     // Catch-all route to serve the React app
-    // app.get('*', (req, res) => {
-    //     res.sendFile(path.join(CURRENT_WORKING_DIR, '../dist/app/index.html'))
-    // })
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(CURRENT_WORKING_DIR, '../dist/app/index.html'))
+    })
     
     app.use((err, req, res, next) => {
         if (err.name === 'UnauthorizedError') {

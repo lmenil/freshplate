@@ -165,4 +165,47 @@ const read = (req, res) => {
   return res.json(req.recipe)
 }
 
-export default { createRecipe, getAllRecipes, updateRecipe, deleteRecipe, read, defaultPhoto, photo, recipeByID};
+const updateCreator = async (req, res) => {
+  try {
+    console.log('Received updateCreator request:', req.body);
+    const { oldName, newName } = req.body;
+    
+    if (!oldName || !newName) {
+      console.error('Missing oldName or newName in request');
+      return res.status(400).json({
+        success: false,
+        message: 'Both oldName and newName are required'
+      });
+    }
+
+    const result = await Recipe.updateMany(
+      { creator: oldName },
+      { $set: { creator: newName } }
+    );
+
+    console.log('Update result:', result);
+
+    if (result.matchedCount === 0) {
+      console.log('No recipes found with the old creator name');
+      return res.status(404).json({
+        success: false,
+        message: 'No recipes found with the old creator name'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Recipe creators updated successfully',
+      matchedCount: result.matchedCount,
+      modifiedCount: result.modifiedCount
+    });
+  } catch (err) {
+    console.error('Error updating recipe creators:', err);
+    return res.status(500).json({
+      success: false,
+      message: errorHandler.getErrorMessage(err)
+    });
+  }
+};
+
+export default { createRecipe, getAllRecipes, updateRecipe, deleteRecipe, read, defaultPhoto, photo, recipeByID, updateCreator};

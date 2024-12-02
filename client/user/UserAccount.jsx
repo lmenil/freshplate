@@ -14,6 +14,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { read, update, remove } from "./api-user.js";
+import {updateRecipeCreators} from "../recipe/api-recipe.js";
 
 const UserAccount = () => {
   const [user, setUser] = useState(null); // Initialize user as null
@@ -81,10 +82,31 @@ const UserAccount = () => {
     }
 
     setIsUpdating(true); // Disable the button during update
+    setError(null);
     const jwt = auth.isAuthenticated();
     try {
       let updatedUser;
-      if (updateType === "password") {
+      if (updateType === "name") {
+        const oldName = user?.name;
+        const newName = updateData.name;
+        updatedUser = await update(
+          { userId: jwt.user._id },
+          { t: jwt.token },
+          { name: newName }
+        );
+        console.log("User name updated successfully");
+
+        try {
+          const updateResult = await updateRecipeCreators(
+            { oldName, newName },
+            { t: jwt.token }
+          );
+          console.log('Recipe creators update result:', updateResult);
+        } catch (recipeUpdateError) {
+          console.error('Error updating recipe creators:', recipeUpdateError);
+          throw new Error(`User name updated, but failed to update recipe creators: ${recipeUpdateError.message}`);
+        }
+      } else if (updateType === "password") {
         updatedUser = await update(
           { userId: jwt.user._id },
           { t: jwt.token },
@@ -101,14 +123,16 @@ const UserAccount = () => {
       setUpdateData({ name: "", email: "", password: "", confirmPassword: "" });
       setUpdateType(""); // Reset the selection
 
-      if (updateType === "password") {
-        alert("Password updated successfully. Please log in again.");
-        auth.clearJWT(() => {
-          window.location.href = "/signin"; // Redirect to login page
-        });
-      } else {
-        alert("User updated successfully");
-      }
+      // if (updateType === "password") {
+      //   alert("Password updated successfully. Please log in again.");
+      //   auth.clearJWT(() => {
+      //     window.location.href = "/signin"; // Redirect to login page
+      //   });
+      // } else {
+      //   alert("User updated successfully");
+      // }
+      alert(`${updateType.charAt(0).toUpperCase() + updateType.slice(1)} updated successfully. Please log in again.`);
+      window.location.href = "/signin";
     } catch (err) {
       console.error("Error updating user data:", err);
       setError("Could not update user data. Please try again later.");
