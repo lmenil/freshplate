@@ -101,7 +101,6 @@ const UserAccount = () => {
             { oldName, newName },
             { t: jwt.token }
           );
-          console.log('Recipe creators update result:', updateResult);
         } catch (recipeUpdateError) {
           console.error('Error updating recipe creators:', recipeUpdateError);
           throw new Error(`User name updated, but failed to update recipe creators: ${recipeUpdateError.message}`);
@@ -123,15 +122,8 @@ const UserAccount = () => {
       setUpdateData({ name: "", email: "", password: "", confirmPassword: "" });
       setUpdateType(""); // Reset the selection
 
-      // if (updateType === "password") {
-      //   alert("Password updated successfully. Please log in again.");
-      //   auth.clearJWT(() => {
-      //     window.location.href = "/signin"; // Redirect to login page
-      //   });
-      // } else {
-      //   alert("User updated successfully");
-      // }
       alert(`${updateType.charAt(0).toUpperCase() + updateType.slice(1)} updated successfully. Please log in again.`);
+      auth.clearJWT();
       window.location.href = "/signin";
     } catch (err) {
       console.error("Error updating user data:", err);
