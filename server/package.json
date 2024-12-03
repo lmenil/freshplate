@@ -14,8 +14,7 @@
    },
    "scripts": {
       "dev": "concurrently 'vite' \"nodemon server.js\"",
-      "build-client": "cd client && npm install && npm run build",
-      "build": "npm install && npm run build-client",
+      "build": "vite",
       "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
       "preview": "vite preview"
    },
