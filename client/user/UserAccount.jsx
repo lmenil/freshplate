@@ -45,7 +45,7 @@ const UserAccount = () => {
         try {
           const data = await read({ userId: jwt.user._id }, { t: jwt.token });
           setUser(data);
-          setIsAdmin(data.role === "admin");
+          setIsAdmin(jwt.user.name === "Admin");
         } catch (err) {
           console.error("Error fetching user data:", err);
           setError("Could not load user data. Please try again later.");
