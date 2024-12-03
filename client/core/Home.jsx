@@ -122,12 +122,13 @@ export default function HomePage() {
               <Link to="/signup">
                 <Button
                   variant="contained"
+                  aria-label="Sign up for an account to discover and share recipes"
                   sx={{
                     mt: 2,
-                    backgroundColor: "#1A1A1A",
-                    color: "white",
+                    backgroundColor: "#FF6B35",
+                    color: "#1A1A1A",
                     "&:hover": {
-                      backgroundColor: "#333333",
+                      backgroundColor: "#E55A2B",
                     },
                   }}
                 >
