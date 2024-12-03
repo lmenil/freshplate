@@ -14,10 +14,7 @@ import path from "path";
     // Use PORT provided in environment or default to 3000
 const port = process.env.PORT || 3000;
 
-// Listen on `port` and 0.0.0.0
-app.listen(port, "0.0.0.0", function () {
-    console.log(`Server is running on port ${port}`);
-});
+
     const app = express()
     const CURRENT_WORKING_DIR = process.cwd();
     const corsOptions = {
@@ -72,5 +69,10 @@ app.listen(port, "0.0.0.0", function () {
         console.log(err)
         } 
         })
+
+        // Listen on `port` and 0.0.0.0
+    app.listen(port, "0.0.0.0", function () {
+        console.log(`Server is running on port ${port}`);
+    });
           
    export default app
