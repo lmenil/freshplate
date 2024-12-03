@@ -2,6 +2,8 @@ import config from './config/config.js'
 import app from '../server/express.js'
 import mongoose from 'mongoose' 
 
+const port = process.env.PORT || 3000;
+
 	mongoose.Promise = global.Promise
 	mongoose.connect(config.mongoUri, { 
   } 
