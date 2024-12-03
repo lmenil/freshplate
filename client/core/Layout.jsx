@@ -127,8 +127,8 @@ import logo from "../src/assets/FreshPlate-logo.png";
 
 const isActive = (location, path) => {
   return location.pathname === path
-    ? { backgroundColor: "#FF6E1C" }
-    : { color: "#000000" };
+    // ? { backgroundColor: "#FF6E1C" }
+    // : { color: "#000000" };
 };
 
 export default function Layout() {
