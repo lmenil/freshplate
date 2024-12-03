@@ -208,4 +208,50 @@ const updateCreator = async (req, res) => {
   }
 };
 
-export default { createRecipe, getAllRecipes, updateRecipe, deleteRecipe, read, defaultPhoto, photo, recipeByID, updateCreator};
+const deleteUserRecipes = async (req, res) => {
+  try {
+    const userName = req.params.name;
+    const result = await Recipe.deleteMany({ creator: userName });
+    res.json({
+      message: 'User recipes deleted successfully',
+      deletedCount: result.deletedCount
+    });
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    });
+  }
+};
+
+const transferRecipesToAdmin = async (req, res) => {
+  try {
+    const userName = req.params.name;
+    const result = await Recipe.updateMany(
+      { creator: userName },
+      { $set: { creator: 'admin' } }
+    );
+    res.json({
+      message: 'Recipes transferred to admin successfully',
+      modifiedCount: result.modifiedCount
+    });
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    });
+  }
+};
+
+const remove = async (req, res) => {
+  try {
+    let recipe = req.recipe;
+    let deletedRecipe = await recipe.remove();
+    res.json(deletedRecipe);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    });
+  }
+};
+
+export default { createRecipe, getAllRecipes, updateRecipe, deleteRecipe, read, defaultPhoto, photo, recipeByID, updateCreator, deleteUserRecipes,
+  transferRecipesToAdmin, remove };

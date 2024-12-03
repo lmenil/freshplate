@@ -111,6 +111,40 @@ const updateRecipeCreators = async (data, credentials) => {
   }
 };
 
+const deleteUserRecipes = async (params, credentials) => {
+  try {
+    let response = await fetch(`/api/recipes/user/${params.name}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('Error in deleteUserRecipes:', err);
+    throw err;
+  }
+};
+
+const transferRecipesToAdmin = async (params, credentials) => {
+  try {
+    let response = await fetch(`/api/recipes/transfer/${params.name}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('Error in transferRecipesToAdmin:', err);
+    throw err;
+  }
+};
 
 
-export { create, list, read, update, remove, updateRecipeCreators }
+
+export { create, list, read, update, remove, updateRecipeCreators, deleteUserRecipes, transferRecipesToAdmin }

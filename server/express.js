@@ -15,8 +15,8 @@ import path from "path";
     const app = express()
     const CURRENT_WORKING_DIR = process.cwd();
     const corsOptions = {
-        origin: 'https://prefreshplate.onrender.com',
-        //origin: 'http://localhost:3000',
+        origin: ['https://prefreshplate.onrender.com', 'http://localhost:3000'],
+        method: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
         optionsSuccessStatus: 204
       }
@@ -35,8 +35,19 @@ import path from "path";
    app.use(cookieParser())
    app.use(compress())
    app.use(helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
+    contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "blob:"],
+          workerSrc: ["'self'", "blob:"],
+          imgSrc: ["'self'", "data:", "blob:"],
+          connectSrc: ["'self'", "https://prefreshplate.onrender.com"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          fontSrc: ["'self'", "data:"],
+        },
+      },
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
   }))
    app.use(cors(corsOptions))
    app.get('/', (req, res) => {
